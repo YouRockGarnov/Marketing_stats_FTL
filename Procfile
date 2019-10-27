@@ -1,0 +1,1 @@
+scheduler: python bot/__main__.py

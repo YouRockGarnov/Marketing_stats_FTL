@@ -26,6 +26,8 @@ Pillow = "*"
 opencv-python = "*"
 pymongo = "*"
 dialog_bot_sdk = {git = "https://github.com/heckad/python-bot-sdk.git"}
+Flask = "*"
+gunicorn = "*"
 
 
 [requires]

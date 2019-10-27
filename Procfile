@@ -1,1 +1,1 @@
-scheduler: python bot/__main__.py
+web: gunicorn main:app

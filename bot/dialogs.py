@@ -31,16 +31,10 @@ def register_dialog_and_message_handlers(bot):
     def _(message: Message):
         dataframe = get_report()
 
-        dataframe.to_excel(f'report{message.from_user.id}.xlsx')
+        dataframe.to_html(f'report{message.from_user.id}.html')
         bot.send_file(
-            message.from_user.id, f'report{message.from_user.id}.xlsx'
+            message.from_user.id, f'report{message.from_user.id}.html'
         )
-
-        while True:
-            message = yield from bot.get_expected_message("Hello")
-
-            print("hello")
-            break
 
     @bot.message_handler("[Hh]elp|[Пп]омощь")
     def _(message: Message):

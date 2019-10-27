@@ -45,6 +45,7 @@ def get_report_from_analitics(analytics):
                         {'expression': 'ga:adxViewableImpressionsPercent'},
                         {'expression': 'ga:adxClicks'},
                         {'expression': 'ga:adxCTR'},
+                        {'expression': 'ga:adxRevenue'},
                         {'expression': 'ga:adxRevenuePer1000Sessions'},
                         {'expression': 'ga:adxECPM'},
                     ],
@@ -60,25 +61,24 @@ def create_data_frame_response(response) -> pd.DataFrame:
     Args:
       response: An Analytics Reporting API V4 response.
     """
-    res = pd.DataFrame(columns=[
-        'AdX Impressions',
-        'AdX Coverage',
-        'AdX Monetized Pageviews',
-        'AdX Impressions / Session',
-        'AdX Viewable Impressions %',
-        'AdX Clicks',
-        'AdX CTR',
-        'AdX Revenue',
-        'AdX Revenue / 1000 Sessions',
-        'AdX eCPM'
-    ])
 
     for report in response.get('reports', []):
-        columnHeader = report.get('columnHeader', {})
+        values = report.get('data', {}).get('totals', [])
 
-        for row in report.get('data', {}).get('totals', []):
-            res = res.append(row['values'])
-    return res
+        return pd.DataFrame(map(lambda o:o['values'], values)
+        , columns=[
+            'AdX Impressions',
+            'AdX Coverage',
+            'AdX Monetized Pageviews',
+            'AdX Impressions / Session',
+            'AdX Viewable Impressions %',
+            'AdX Clicks',
+            'AdX CTR',
+            'AdX Revenue',
+            'AdX Revenue / 1000 Sessions',
+            'AdX eCPM'
+        ])
+
 
 
 def get_report() -> pd.DataFrame:

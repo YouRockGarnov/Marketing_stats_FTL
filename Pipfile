@@ -1,0 +1,32 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+pytest-coverage = "*"
+
+
+[packages]
+importlib-metadata = "*"
+oauth2client = "*"
+dialog-api = "*"
+protobuf = "*"
+pandas = "*"
+openpyxl = "*"
+google-api-python-client = "*"
+googleapis-common-protos = "*"
+gevent = "*"
+grpcio = "*"
+grpcio-tools = "*"
+requests = "*"
+pyopenssl = "*"
+Pillow = "*"
+opencv-python = "*"
+pymongo = "*"
+dialog_bot_sdk = {git = "https://github.com/heckad/python-bot-sdk.git"}
+
+
+[requires]
+python_version = "3.7"

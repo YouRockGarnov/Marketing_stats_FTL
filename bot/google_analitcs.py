@@ -18,7 +18,7 @@ def initialize_analyticsreporting():
         KEY_FILE_LOCATION, SCOPES)
 
     # Build the service object.
-    analytics = discovery.build('analyticsreporting', 'v4', credentials=credentials)
+    analytics = discovery.build('analyticsreporting', 'v4', credentials=credentials, cache_discovery=False)
 
     return analytics
 
@@ -65,8 +65,7 @@ def create_data_frame_response(response) -> pd.DataFrame:
     for report in response.get('reports', []):
         values = report.get('data', {}).get('totals', [])
 
-        return pd.DataFrame(map(lambda o:o['values'], values)
-        , columns=[
+        return pd.DataFrame(map(lambda o:o['values'], values), columns=[
             'AdX Impressions',
             'AdX Coverage',
             'AdX Monetized Pageviews',

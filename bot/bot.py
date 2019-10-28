@@ -1,6 +1,7 @@
 import logging
 import re
 import typing
+from datetime import datetime
 from os import getenv
 from typing import Dict
 from typing import Generator
@@ -51,7 +52,7 @@ class Bot:
     def send_file(self, user_id, path_to_file: str):
         self._bot.messaging.send_file(self._peers[user_id], path_to_file)
 
-    def get_expected_message(self, expected_text_pattern):
+    def get_expected_message(self, expected_text_pattern) -> Message:
         while True:
             message = yield
             if re.match(expected_text_pattern, message.text):
@@ -62,6 +63,19 @@ class Bot:
                 self.send_message(message.from_user.id,
                                   f'Напишите то что удовлетворяет "{expected_text_pattern}" '
                                   f'или "Завершить"')
+
+    def get_expected_datetime(self, datetime_pattern, user_readable_pattern) -> datetime:
+        while True:
+            message = yield
+            try:
+                return datetime.strptime(message.text, datetime_pattern)
+            except ValueError:
+                if message.text.lower() == 'завершить':
+                    self.send_message(message.from_user.id, 'Диалог завершён')
+                else:
+                    self.send_message(message.from_user.id,
+                                      f'Вы ввели дату не веного формата. '
+                                      f'Введите дату в формате "{user_readable_pattern}" или "Завершить"')
 
     def _find_message_handler(self, message: Message):
         if message.from_user.id in self._current_dialogs:

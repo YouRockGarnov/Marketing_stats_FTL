@@ -17,6 +17,14 @@ def message(user, message_text):
 
 
 @pytest.fixture
+def message_fabric(user):
+    def message_fabric(message_text):
+        return Message(user, message_text)
+
+    return message_fabric
+
+
+@pytest.fixture
 def bot():
     bot = TestBot()
     register_dialog_and_message_handlers(bot)

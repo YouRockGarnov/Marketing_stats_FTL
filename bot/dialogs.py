@@ -29,6 +29,10 @@ def register_dialog_and_message_handlers(bot):
 
     @bot.message_handler('[Пп]олучить отчёт')
     def _(message: Message):
+        bot.send_file(
+            message.from_user.id, f'Начал формировать отчёт'
+        )
+
         dataframe = get_report()
 
         dataframe.to_html(f'report{message.from_user.id}.html')

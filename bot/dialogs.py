@@ -1,8 +1,12 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from bot.bot import Bot
 from bot.google_analitcs import get_report
 from bot.models.message import Message
 
 
-def register_dialog_and_message_handlers(bot):
+def register_dialog_and_message_handlers(bot: Bot):
     # @bot.dialog_handler('[Пп]олучить отчёт')
     # def default_handler(message: Message):
     #     bot.send_message(
@@ -33,12 +37,17 @@ def register_dialog_and_message_handlers(bot):
             message.from_user.id, f'Начал формировать отчёт'
         )
 
-        dataframe = get_report()
+        with TemporaryDirectory() as tmp_dir:
+            tmp_dir = Path(tmp_dir)
 
-        dataframe.to_html(f'report{message.from_user.id}.html')
-        bot.send_file(
-            message.from_user.id, f'report{message.from_user.id}.html'
-        )
+            path_to_file = tmp_dir / f'report{message.from_user.id}.html'
+
+            dataframe = get_report()
+
+            dataframe.to_html(path_to_file)
+            bot.send_file(
+                message.from_user.id, path_to_file
+            )
 
     @bot.message_handler("[Hh]elp|[Пп]омощь")
     def _(message: Message):

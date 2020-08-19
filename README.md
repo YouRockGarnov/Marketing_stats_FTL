@@ -1,1 +1,1 @@
-# Marketing_stats_FTL
+# Chat-bot for analytics made during Dialog Hackathon 2019.
